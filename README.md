@@ -1,1 +1,6 @@
-# SPKL-BG-SpecklePY-LIB
+# bg-specklepy
+
+## Description
+
+## Dependencies
+* specklepy
