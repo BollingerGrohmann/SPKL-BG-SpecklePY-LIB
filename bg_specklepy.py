@@ -6,7 +6,7 @@ from specklepy.api.credentials import get_account_from_token
 from specklepy.transports.server import ServerTransport
 
 # Interaktion mit dem Speckle-Server
-class Branch():
+class Branch(): # NOTE: Vielleicht wäre eine Client-Klasse eine bessere Idee. Class -> Stream -> Branch. Stream(Class) und Branch(Stream), geht das?
     def __init__(self,
                  speckle_server: str = None,
                  speckle_token: str = None,
@@ -87,4 +87,4 @@ class Branch():
 
         self.commit_data = commit_data
 
-        self = branch
+        self = branch # NOTE: Ergibt keinen Sinn. Löschen? 
