@@ -20,4 +20,5 @@ class Client():
         object.__setattr__(client, 'speckle_token', speckle_token)
 
         return client
+
     

@@ -14,7 +14,10 @@ if __name__ == "__main__":
 
     # Objekte definieren
     client_obj = Client(speckle_server, speckle_token)
-    stream_obj = Stream(client_obj, 0)
-    branch_obj = Branch(client_obj, stream_obj, 0)
-    commit_data = Commit.getData(branch_obj)
+
+    client_obj.commit.create()
+
+    # stream_obj = Stream(client_obj, 0)
+    # branch_obj = Branch(client_obj, stream_obj, 0)
+    # commit_data = Commit.getData(branch_obj)
     
