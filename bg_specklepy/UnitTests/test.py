@@ -1,3 +1,5 @@
+# MUSS ALS UNIT TEST UMGESCHRIEBEN WERDEN!!!!
+
 if __name__ == "__main__":
 
     # Importieren der Bibliotheken
