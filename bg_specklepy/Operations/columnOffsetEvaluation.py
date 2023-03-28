@@ -12,7 +12,8 @@ class ColumnOffsetEvaluation():
     def Run(commit_data,
             column_parameter : str = '@Tragwerksstützen',
             tolerance : float = 0.01,
-            commit_message : str = "Stützenversätze"):
+            commit_message : str = "Stützenversätze",
+            scale_spheres : bool = True):
         
         '''
             commit_data (specklepy.objects.base.Base): commit_data object obtained using Commit.getData() from the bg_specklepy library
@@ -87,7 +88,11 @@ class ColumnOffsetEvaluation():
             
             obj = Base(speckle_type = "ColumnOffsetSphere")
             
-            radius = min(1, row["offset"])
+            radius = 0.5
+
+            if scale_spheres:
+                radius = min(1, row["offset"])
+                print(radius)
             
             sphere = Sphere(radius = radius, center = [row["x_u"], row["y_u"], row["z_u"]])
             
