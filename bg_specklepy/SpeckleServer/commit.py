@@ -11,4 +11,7 @@ class Commit():
         transport = ServerTransport(branch.stream.id, branch.client)
         commit_data = operations.receive(commit.referencedObject, transport)
 
+        commit_data.__setattr__("client_obj", branch.client)
+        commit_data.__setattr__("stream_id", branch.stream.id)
+
         return commit_data
