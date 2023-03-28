@@ -1,11 +1,18 @@
 import pandas as pd
 import numpy as np
 import math
-from specklepy.objects.geometry import Base, Mesh
+from specklepy.objects.geometry import Base
 from specklepy.objects.other import RenderMaterial
 from specklepy.transports.server import ServerTransport
 from specklepy.api import operations
-from trimesh.primitives import Sphere
+
+import os
+import sys
+
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),os.pardir))
+sys.path.append(PROJECT_ROOT)
+
+from Geometry.geometry import Sphere
 
 class ColumnOffsetEvaluation():
 
@@ -89,22 +96,11 @@ class ColumnOffsetEvaluation():
             obj = Base(speckle_type = "ColumnOffsetSphere")
             
             radius = 0.5
-
             if scale_spheres:
                 radius = min(1, row["offset"])
-                print(radius)
             
-            sphere = Sphere(radius = radius, center = [row["x_u"], row["y_u"], row["z_u"]])
-            
-            vertices = [item for sublist in sphere.vertices for item in sublist]
+            mesh = Sphere.Create(radius = radius, center = [row["x_u"], row["y_u"], row["z_u"]])
 
-            faces = []
-            for face in sphere.faces:
-                faces.append(3)
-                for vertex in face:
-                    faces.append(int(vertex))
-
-            mesh = Mesh.create(vertices, faces)
             obj["displayValue"] = mesh
             obj["displayValue"]["renderMaterial"] = RenderMaterial(opacity = 0.5, diffuse = 16711680, emissive = 16711680)
 
@@ -120,7 +116,7 @@ class ColumnOffsetEvaluation():
     
         transport = ServerTransport(client = commit_data.client_obj, stream_id = commit_data.stream_id)
         obj_id = operations.send(base=commit_data, transports=[transport])
-        commit_id = commit_data.client_obj.commit.create(stream_id = commit_data.stream_id, object_id = obj_id, message = commit_message)
+        commit_data.client_obj.commit.create(stream_id = commit_data.stream_id, object_id = obj_id, message = commit_message)
 
         print("Successfully commited to branch.")
     
