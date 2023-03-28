@@ -116,4 +116,6 @@ class ColumnOffsetEvaluation():
         transport = ServerTransport(client = commit_data.client_obj, stream_id = commit_data.stream_id)
         obj_id = operations.send(base=commit_data, transports=[transport])
         commit_id = commit_data.client_obj.commit.create(stream_id = commit_data.stream_id, object_id = obj_id, message = commit_message)
+
+        print("Successfully commited to branch.")
     
