@@ -52,7 +52,19 @@ class ColumnOffsetEvaluation():
         if commit_data.units != Units.m:
             print("[WARNING]\t:\tModel assumed to be in metres. Should commited model not be defined in m, double-check outputs.")
         
-        column_elements = commit_data[column_parameter]
+        try:
+            commit_data[column_parameter]
+        
+        except KeyError:
+            print("[WARNING]\t:\tGiven column_parameter given is not found in the model. Parameter should be one of the following:")
+            for parameter in dir(commit_data):
+                if parameter[0] == "@":
+                    print("\t\t\t\t-", parameter)
+            sys.exit(1)
+        
+        else:
+            column_elements = commit_data[column_parameter]
+        
         df = pd.DataFrame()
         vertices = []
 
@@ -154,7 +166,7 @@ class ColumnOffsetEvaluation():
             commit_data = commit_object
 
         if echo_level == 1:
-            print("[UPDATE]\t\tPushing commit ...")
+            print("[UPDATE]\t:\tPushing commit ...")
     
         transport = ServerTransport(client = client_obj, stream_id = stream_id)
         obj_id = operations.send(base = commit_data, transports = [transport])
