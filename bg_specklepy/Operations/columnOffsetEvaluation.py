@@ -1,37 +1,63 @@
-import pandas as pd
-import numpy as np
-import math
-from specklepy.objects.geometry import Base
-from specklepy.objects.other import RenderMaterial
-from specklepy.transports.server import ServerTransport
-from specklepy.api import operations
-
-import os
-import sys
+import os, sys
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),os.pardir))
 sys.path.append(PROJECT_ROOT)
 
-from Geometry.geometry import Sphere
+from Geometry.sphere import Sphere
+import dependencies
+
+import pandas as pd
+import numpy as np
+import math
+
+from specklepy.objects.geometry import Base
+from specklepy.objects.other import RenderMaterial
+from specklepy.transports.server import ServerTransport
+from specklepy.api import operations
+from specklepy.objects.units import Units
 
 class ColumnOffsetEvaluation():
 
     def Run(commit_data,
+            echo_level : int = 0,
             column_parameter : str = '@Tragwerksstützen',
             tolerance : float = 0.01,
+            append_to_received_commit : bool = True,
             commit_message : str = "Stützenversätze",
             scale_spheres : bool = True):
         
         '''
             commit_data (specklepy.objects.base.Base): commit_data object obtained using Commit.getData() from the bg_specklepy library
+            echo_level (int): Default of 0 - no updates printed to console. 1 - updates printed to console.
             column_parameter (str): String representing the revit parameter used to described columns
-            tolerance (float): Calculated distances of the offsets (in the x-y plane) larger than the tolerance will be deemed as an offset column
+            tolerance (float, m): Calculated distances of the offsets (in the x-y plane) larger than the tolerance will be deemed as an offset column
+            append_to_received_commit (bool): When False, only spheres are commited. When True, spheres are calculated and pushed back WITH all original commit data
             commit_message (str): Message commited to the branch
+            scale_spheres (bool): When False, sphere radius is set to offset distance (radius limited to a maximum of 1 m). When True, sphere radius set to 0.5 m
         '''
 
+        client_obj = commit_data.client_obj
+        stream_id = commit_data.stream_id
+
+        if not "Revit" in commit_data[dir(commit_data)[0]][0].speckle_type: # HACKY - muss einen besseren Weg geben?
+            raise Exception("Column offset evaluation currently restricted to Revit models only.")
+
+        else:
+            if echo_level == 1:
+                print("[UPDATE]\t:\tRevit model detected ...")
+
+        if commit_data.speckle_type != "Objects.Organization.Model":
+            raise Exception("Commit data not of correct speckle type. A Revit Model needs to be used as basis input.")
+        
+        if commit_data.units != Units.m:
+            print("[WARNING]\t:\tModel assumed to be in metres. Should commited model not be defined in m, double-check outputs.")
+        
         column_elements = commit_data[column_parameter]
         df = pd.DataFrame()
         vertices = []
+
+        if echo_level == 1:
+            print("[UPDATE]\t:\tBuilding column database ...")
 
         for column in column_elements:
             
@@ -66,6 +92,9 @@ class ColumnOffsetEvaluation():
         offset_column_indices = []
         offset = []
 
+        if echo_level == 1:
+            print("[UPDATE]\t:\tFinding offset columns in accordance with tolerance criterion ...")
+
         for index, row in df.iterrows():
             
             if row["isSlanted"] == True:
@@ -83,10 +112,13 @@ class ColumnOffsetEvaluation():
                     
                     if srss > tolerance:
                         offset_column_indices.append(index + 1)
-                        offset.append(round(srss, 3))
+                        offset.append(round(srss, 4))
                         
         offset_df = df.iloc[offset_column_indices].copy(deep=True)
         offset_df["offset"] = offset
+
+        if echo_level == 1:
+            print("[UPDATE]\t:\tGenerating sphere objects for visualization ...")
 
         commit_object = Base()
         commit_object["@Stützenversätze"] = []
@@ -112,11 +144,22 @@ class ColumnOffsetEvaluation():
             
             commit_object["@Stützenversätze"].append(obj)
         
-        commit_data["@Stützenversätze"] = commit_object
-    
-        transport = ServerTransport(client = commit_data.client_obj, stream_id = commit_data.stream_id)
-        obj_id = operations.send(base=commit_data, transports=[transport])
-        commit_data.client_obj.commit.create(stream_id = commit_data.stream_id, object_id = obj_id, message = commit_message)
+        if echo_level == 1:
+            print("[UPDATE]\t:\tReady to commit ...")
+        
+        if append_to_received_commit:
+            commit_data["@Stützenversätze"] = commit_object
+        
+        if not append_to_received_commit:
+            commit_data = commit_object
 
-        print("Successfully commited to branch.")
+        if echo_level == 1:
+            print("[UPDATE]\t\tPushing commit ...")
+    
+        transport = ServerTransport(client = client_obj, stream_id = stream_id)
+        obj_id = operations.send(base = commit_data, transports = [transport])
+        commit = client_obj.commit.create(stream_id = stream_id, object_id = obj_id, message = commit_message)
+
+        if echo_level == 1:
+            print("[UPDATE]\t:\tFinished! :) ")
     
