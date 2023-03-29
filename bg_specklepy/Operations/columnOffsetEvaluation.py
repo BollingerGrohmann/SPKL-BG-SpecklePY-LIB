@@ -124,10 +124,14 @@ class ColumnOffsetEvaluation():
                     
                     if srss > tolerance:
                         offset_column_indices.append(index + 1)
-                        offset.append(round(srss, 4))
-                        
+                        offset.append(srss)
+        
+        if echo_level == 1:
+            print("[UPDATE]\t:\t{} offset columns found ...".format(len(offset)))
+
         offset_df = df.iloc[offset_column_indices].copy(deep=True)
         offset_df["offset"] = offset
+        offset_df = offset_df.round({'offset': 3})
 
         if echo_level == 1:
             print("[UPDATE]\t:\tGenerating sphere objects for visualization ...")
