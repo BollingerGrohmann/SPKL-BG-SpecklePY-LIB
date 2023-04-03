@@ -98,8 +98,8 @@ class ColumnOffsetEvaluation():
 
             vertices.append(dict(zip(keys, values)))
 
-        df = df.append(vertices)
-
+        df = pd.concat([df, pd.DataFrame(vertices)], axis = 1)
+        
         df["x_sort"] = df["x_u"].apply(np.floor)
         df["y_sort"] = df["y_u"].apply(np.floor)
         df["z_sort"] = df["z_u"].apply(np.floor)

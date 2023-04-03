@@ -26,8 +26,6 @@ class Commit():
         commit_data.__setattr__("client_obj", branch.client)
         commit_data.__setattr__("stream_id", branch.stream.id)
 
-        print(type(commit_data))
-
         return commit_data
 
     def send_data(client_obj, stream_id, commit_data, commit_message):
