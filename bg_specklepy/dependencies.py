@@ -9,9 +9,9 @@ try:
 
 except:
     print('One of the required modules is not installed in your Python env.')
-    instSUDS = input('\nDo you want to install all dependencies and check all their versions (y/n)? ')
-    instSUDS = instSUDS.lower()
-    if instSUDS == 'y':
+    user_prompt = input('\nDo you want to install all dependencies and check all their versions (y/n)? ')
+    user_prompt = user_prompt.lower()
+    if user_prompt == 'y':
         import subprocess
         try:
             subprocess.call('python -m pip install --upgrade pip')

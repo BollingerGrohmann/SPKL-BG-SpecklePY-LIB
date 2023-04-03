@@ -3,16 +3,32 @@ from trimesh.primitives import Sphere as trimesh_sphere
 
 class Sphere():
 
-    def Create(radius, center):
-                 
-            sphere = trimesh_sphere(radius = radius, center = center)
+    '''
+    A general placeholder for methods pertaining to a sphere object.
+    '''
+
+    def create(radius, center):
             
-            vertices = [item for sublist in sphere.vertices for item in sublist]
+        '''
+        Appropriately formatted sphere mesh for speckle_py.
 
-            faces = []
-            for face in sphere.faces:
-                faces.append(3)
-                for vertex in face:
-                    faces.append(int(vertex))
+        Args:
+            radius (float): Radius of sphere (given in m).
+            center (list): Center of sphere [x, y, z](given in m).
 
-            return Mesh.create(vertices, faces)
+        Returns:
+            speckle.objects.geometry.Mesh: A speckle mesh object.
+        '''
+
+        sphere = trimesh_sphere(radius = radius, center = center)
+
+        vertices = [item for sublist in sphere.vertices for item in sublist]
+
+        faces = []
+        for face in sphere.faces:
+            faces.append(3)
+            for vertex in face:
+                faces.append(int(vertex))
+
+        return Mesh.create(vertices, faces)
+    
