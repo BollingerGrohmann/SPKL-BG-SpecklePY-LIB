@@ -17,7 +17,7 @@ def test_speckleServer():
     client_obj = Client(speckle_server, speckle_token)
     stream_obj = Stream(client_obj, 0)
     branch_obj = Branch(client_obj, stream_obj, 0)
-    commit_data = Commit.getData(branch_obj)
+    commit_data = Commit.get_data(branch_obj)
 
     assert client_obj.authenticated == True
     assert branch_obj.client.server == speckle_server
