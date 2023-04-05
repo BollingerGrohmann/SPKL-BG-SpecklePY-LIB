@@ -8,6 +8,7 @@ sys.path.append(PROJECT_ROOT)
 
 import dependencies
 
+# Können wir besser machen (?) - class Client(SpeckleClient) mit super().__init__()
 class Client():
 
     def __new__(cls,

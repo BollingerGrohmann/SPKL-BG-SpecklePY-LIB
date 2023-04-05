@@ -22,7 +22,6 @@ class ColumnOffsetEvaluation():
                  column_parameter : str = '@Tragwerksstützen',
                  tolerance : float = 0.01,
                  append_spheres_to_received_commit : bool = True,
-                 commit_message : str = "Stützenversätze",
                  scale_spheres : bool = True):
 
         '''
@@ -31,10 +30,9 @@ class ColumnOffsetEvaluation():
         Args:
             commit_data (specklepy.objects.base.Base): commit_data object obtained using Commit.getData() from the bg_specklepy library
             echo_level (int): Default of 0 - no updates printed to console. 1 - updates printed to console.
-            column_parameter (str): String representing the revit parameter used to described columns
+            column_parameter (str): String representing the revit parameter used to described columns.
             tolerance (float, m): Calculated distances of the offsets (in the x-y plane) larger than the tolerance will be deemed as an offset column
             append_spheres_to_received_commit (bool): When False, only spheres are commited. When True, spheres are calculated and pushed back WITH all original commit data
-            commit_message (str): Message commited to the branch
             scale_spheres (bool): When False, sphere radius is set to offset distance (radius limited to a maximum of 1 m). When True, sphere radius set to 0.5 m
         '''
 
@@ -43,7 +41,7 @@ class ColumnOffsetEvaluation():
         self.column_parameter = column_parameter
         self.tolerance = tolerance
         self.append_spheres_to_received_commit = append_spheres_to_received_commit
-        self.commit_message = commit_message
+        self.commit_message = "Analysis_ColumnEccentricity"
         self.scale_spheres = scale_spheres
         self.client_obj = commit_data.client_obj
         self.stream_id = commit_data.stream_id
@@ -55,7 +53,7 @@ class ColumnOffsetEvaluation():
     def run(self):
 
         '''
-        Run evaluation invokes all subprocesses and pushes results to commit.
+        Running the evaluation invokes all subprocesses and pushes results to commit.
         '''
 
         self._check_commit_quality()
@@ -65,6 +63,14 @@ class ColumnOffsetEvaluation():
         self._commit_data()
 
     def _check_commit_quality(self):
+
+        '''
+        Hier wollen wir ein paar Sachen überprüfen, z.B.:
+            -   Muss ein Revit-Modell sein
+            -   commit muss der richtige Datentyp sein
+            -   "@column_parameter muss richtig eingegeben werden. ToDo wäre eine Funktion, die den Namen findet? vll. def find_revit_column_parameter(). Je nach Sprache ist unterschiedlich
+            -   ToDo muss ein normales Revit-Modell sein (nicht ein Berechnungsmodell). Ein Berechnungsmodell hat Stützen ohne "baseLine" Attributen
+        '''
 
         # HACKY - muss einen besseren Weg geben?
         if not "Revit" in self.commit_data[dir(self.commit_data)[0]][0].speckle_type:
@@ -136,7 +142,12 @@ class ColumnOffsetEvaluation():
     def _find_offset_columns(self):
 
         offset_column_indices = []
-        offset = []
+
+        column_below_id = []
+        column_below_elementId = []
+        column_below_applicationId = []
+
+        offset_srss, offset_x, offset_y = [], [], []
 
         if self.echo_level == 1:
             print("[UPDATE]\t:\tFinding offset columns in accordance with tolerance criterion ...")
@@ -157,16 +168,38 @@ class ColumnOffsetEvaluation():
                     srss = math.sqrt(delta_x**2 + delta_y**2)
 
                     if srss > self.tolerance:
+
+                        column_below_id.append(row["id"])
+                        column_below_elementId.append(row["elementId"])
+                        column_below_applicationId.append(row["applicationId"])
+
                         offset_column_indices.append(index + 1)
-                        offset.append(srss)
+
+                        offset_srss.append(srss)
+                        offset_x.append(delta_x)
+                        offset_y.append(delta_y)
 
         if self.echo_level == 1:
-            print("[UPDATE]\t:\t{} offset columns found ...".format(str(len(offset))))
+            print("[UPDATE]\t:\t{} offset columns found ...".format(str(len(offset_srss))))
 
         offset_df = self.data_frame.iloc[offset_column_indices].copy(deep=True)
-        offset_df["offset"] = offset
-        offset_df = offset_df.round({'offset': 3})
 
+        offset_df.rename(columns={'id': 'column_above_id',
+                                  'elementId': 'column_above_elementId',
+                                  'applicationId': 'column_above_applicationId'},
+                                  inplace=True)
+
+        offset_df["offset_srss"] = offset_srss
+        offset_df["offset_x"] = offset_x
+        offset_df["offset_y"] = offset_y
+        offset_df = offset_df.round({'offset_srss': 3, 'offset_x': 3, 'offset_y': 3})
+
+        offset_df["column_below_id"] = column_below_id
+        offset_df["column_below_elementId"] = column_below_elementId
+        offset_df["column_below_applicationId"] = column_below_applicationId
+
+        offset_df.to_excel("output.xlsx")
+        
         self.offset_columns_dataframe = offset_df
 
     def _generate_spheres(self):
@@ -175,15 +208,17 @@ class ColumnOffsetEvaluation():
             print("[UPDATE]\t:\tGenerating sphere objects for visualization ...")
 
         commit_object = Base()
-        commit_object["@Stützenversätze"] = []
+        commit_object["@Analysis_ColumnEccentricity"] = []
 
         for index, row in self.offset_columns_dataframe.iterrows():
 
-            obj = Base(speckle_type = "ColumnOffsetSphere")
+            obj = Base()
+
+            obj["@column_above"], obj["@column_below"], obj["@offset"] = {}, {}, {}
 
             radius = 0.5
             if self.scale_spheres:
-                radius = min(1, row["offset"])
+                radius = min(1, row["offset_srss"])
 
             mesh = Sphere.create(radius = radius, center = [row["x_u"], row["y_u"], row["z_u"]])
 
@@ -193,12 +228,20 @@ class ColumnOffsetEvaluation():
                                                                    emissive = 16711680)
 
             for variable in self.offset_columns_dataframe.columns:
-                if variable in ["applicationId", "offset", "elementID", "id", "type", "family", "category"]:
-                    obj[variable] = row[variable]
-                else:
-                    continue
+                if variable.startswith("column_below"):
+                    if row["offset_srss"] < 1:
+                        obj["@column_below"][variable.split("_")[-1]] = row[variable]
+                        obj["@offset"]["Offset_Z"] = "-"
+                    else:
+                        obj["@column_below"][variable.split("_")[-1]] = "Column underneath missing"
+                        obj["@offset"]["Offset_Z"] = "Column underneath missing"
 
-            commit_object["@Stützenversätze"].append(obj)
+                elif variable.startswith("column_above"):
+                    obj["@column_above"][variable.split("_")[-1]] = row[variable]
+                elif variable.startswith("offset"):
+                    obj["@offset"]["_".join(["Offset", variable.split("_")[-1].upper()])] = row[variable]
+
+            commit_object["@Analysis_ColumnEccentricity"].append(obj)
 
         self.commit_object = commit_object
 
@@ -208,7 +251,7 @@ class ColumnOffsetEvaluation():
             print("[UPDATE]\t:\tReady to commit ...")
 
         if self.append_spheres_to_received_commit:
-            self.commit_data["@Stützenversätze"] = self.commit_object
+            self.commit_data["@Analysis_ColumnEccentricity"] = self.commit_object
 
         if not self.append_spheres_to_received_commit:
             self.commit_data = self.commit_object

@@ -8,18 +8,36 @@ class Commit():
     A general placeholder for methods pertaining to commiting of data.
     '''
 
-    def get_data(branch: Branch = None):
+    def get_data(branch: Branch = None,
+                 index: int = None):
 
         '''
         Get all data from a specific branch.
 
         Args:
             branch (speckle.api.models.Branch): Branch to get data from.
+            index (int, optional): Index of desired commit (if known). Empty paramaters will lead user to being prompted with a list of available streams.
+
         Returns:
             specklepy.objects.base.Base: All commit data under the given branch.
         '''
 
-        commit = branch.client.commit.get(branch.stream.id, branch.commits.items[0].id)
+        commit = None
+
+        if index is None:
+
+            print("\nAvailable commits under the given branch:")
+
+            for idx, commit in enumerate(branch.commits.items):
+                print("\t",idx, commit.message)
+
+            commit_idx = input("\ncommit_index: ")
+            commit = branch.client.commit.get(branch.stream.id, branch.commits.items[int(commit_idx)].id)
+
+        if index is not None:
+
+            commit = branch.client.commit.get(branch.stream.id, branch.commits.items[index].id)
+
         transport = ServerTransport(branch.stream.id, branch.client)
         commit_data = operations.receive(commit.referencedObject, transport)
 
