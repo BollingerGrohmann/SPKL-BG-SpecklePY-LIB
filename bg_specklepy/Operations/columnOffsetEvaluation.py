@@ -21,7 +21,6 @@ class ColumnOffsetEvaluation():
                  echo_level : int = 0,
                  column_parameter : str = '@Tragwerksstützen',
                  tolerance : float = 0.01,
-                 append_spheres_to_received_commit : bool = False,
                  scale_spheres : bool = True):
 
         '''
@@ -40,7 +39,7 @@ class ColumnOffsetEvaluation():
         self.echo_level = echo_level
         self.column_parameter = column_parameter
         self.tolerance = tolerance
-        self.append_spheres_to_received_commit = append_spheres_to_received_commit
+        self.append_spheres_to_received_commit = False
         self.commit_message = "Analysis_ColumnEccentricity"
         self.scale_spheres = scale_spheres
         self.client_obj = commit_data.client_obj
