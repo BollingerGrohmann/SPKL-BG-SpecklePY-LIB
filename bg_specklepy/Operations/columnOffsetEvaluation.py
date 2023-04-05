@@ -21,7 +21,7 @@ class ColumnOffsetEvaluation():
                  echo_level : int = 0,
                  column_parameter : str = '@Tragwerksstützen',
                  tolerance : float = 0.01,
-                 append_spheres_to_received_commit : bool = True,
+                 append_spheres_to_received_commit : bool = False,
                  scale_spheres : bool = True):
 
         '''
@@ -228,17 +228,23 @@ class ColumnOffsetEvaluation():
                                                                    emissive = 16711680)
 
             for variable in self.offset_columns_dataframe.columns:
+
                 if variable.startswith("column_below"):
+
                     if row["offset_srss"] < 1:
                         obj["@column_below"][variable.split("_")[-1]] = row[variable]
-                        obj["@offset"]["Offset_Z"] = "-"
+                        obj["@offset"]["Column_discontinuous"] = False
+
                     else:
                         obj["@column_below"][variable.split("_")[-1]] = "Column underneath missing"
-                        obj["@offset"]["Offset_Z"] = "Column underneath missing"
+                        obj["@offset"]["Column_discontinuous"] = True
 
                 elif variable.startswith("column_above"):
+
                     obj["@column_above"][variable.split("_")[-1]] = row[variable]
+
                 elif variable.startswith("offset"):
+
                     obj["@offset"]["_".join(["Offset", variable.split("_")[-1].upper()])] = row[variable]
 
             commit_object["@Analysis_ColumnEccentricity"].append(obj)
