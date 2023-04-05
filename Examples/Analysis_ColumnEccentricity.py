@@ -13,8 +13,8 @@ from bg_specklepy.SpeckleServer.commit import Commit
 from bg_specklepy.Operations.columnOffsetEvaluation import ColumnOffsetEvaluation
 
 # Server and token information
-speckle_server = "https://bg-designflow.germanywestcentral.cloudapp.azure.com"
-speckle_token = "6f006744d1125a0d6bba35fbaafe4f9ef71eca2083"
+speckle_server = "__add_server_url_here"
+speckle_token = "_add_token_here" # https://speckle.guide/dev/tokens.html
 
 # Initiating appropriate server objects
 client_obj = Client(speckle_server, speckle_token)
@@ -30,5 +30,4 @@ evaluation = ColumnOffsetEvaluation(commit_data = commit_data,
                                     echo_level = 1,
                                     column_parameter = "@Tragwerksstützen",
                                     scale_spheres = False)
-
 evaluation.run()
