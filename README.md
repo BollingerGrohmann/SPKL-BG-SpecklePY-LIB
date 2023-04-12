@@ -17,10 +17,13 @@ Required dependencies are automatically checked. Should a library not be availab
 
 ### Column eccentricity example
 #### Description
-Column eccentricities present an undesired disturbance in the flow of forces. In large models, detecting such eccentricities can prove to be a manual and tedious task. In this development, a Revit model is sent to a Speckle branch, interpreted and analysed using the bg_specklepy, with the end result being a graphical output highlighting areas where eccentricities are present.
+Column eccentricities present an undesired disturbance in the flow of forces. In large models, detecting such eccentricities can prove to be a manual and tedious task. In this development, a Revit model is sent to a Speckle branch, interpreted and analysed using the bg_specklepy eccentricity script, with the end result being a graphical output highlighting areas where eccentricities are present.
+
+![image](https://user-images.githubusercontent.com/32340026/231525528-07d9d564-c5a5-4554-8cad-f10f7ab7b627.png)
+
 #### Detailed steps
 ##### 01 Getting started
-In order to use the library, the repository needs to stored locally on your machine. This can be done in one of three ways:
+In order to use the library, the repository needs to be stored locally on your machine. This can be done in one of three ways:
 1. Cloning the repository using the *url*;
 2. Cloning the repository using GitHub Desktop (**recommended**); and
 3. Downloading the files statically as a .zip file (**not recommended**). The static zip file download breaks the link to GitHub, thus further updates will not be automatically "fetched". 
@@ -60,7 +63,7 @@ Now, the analysis can be run.
 
 ![image](https://user-images.githubusercontent.com/88777268/231454300-6b9d3f70-6acf-4cab-b279-7880ee11def3.png)
 
-* For the ```ColumnOffsetEvaluation``` Class, important to note is the ```column_parameter```. This string refers to the Revit Group name for columns and depends on a number of factors such as language in which Revit is being used in. When a false parameter is provided, the user will be prompted with a list of possible names. Update accordingly. For this example, the string "@Tragwerksstützen" will need to be replaced with "@Structural Columns". 
+* For the ```ColumnOffsetEvaluation``` Class, important to note is the ```column_parameter```. This string refers to the Revit category name for columns and depends on a number of factors such as language in which Revit is being used in. When a false parameter is provided, the user will be prompted with a list of possible names. Update accordingly. For this example, the string "@Tragwerksstützen" will need to be replaced with "@Structural Columns". 
 
 ![image](https://user-images.githubusercontent.com/88777268/231455761-eae84dba-5d37-4254-b815-42a7b3c17c61.png)
 
@@ -74,6 +77,10 @@ The results are automatically commited to a branch called *analysis_column_eccen
 
 ![image](https://user-images.githubusercontent.com/88777268/231467560-23d03db1-928c-4d36-b1f5-9c0e41a3111a.png)
 
+You can add your architectural or structural Revit model to the sphere model by clicking on the add button.
+
+![image](https://user-images.githubusercontent.com/32340026/231526579-bc490679-c97b-4f0c-af14-7a9ba555207d.png)
+
 By clicking on a sphere object, details to the offset can be interrogated.
 
 ![image](https://user-images.githubusercontent.com/88777268/231467830-5df0f7da-804b-4c3a-987e-7048ca2da065.png)
@@ -81,6 +88,14 @@ By clicking on a sphere object, details to the offset can be interrogated.
 Using the filters, results can be further interpreted. For example, filtering by column discontinuity, we see one sphere returning a 1 (boolean for True) and two spheres returning a 0 (boolean for False). This is as per the defined Revit model. The filters can also be used to colour the spheres according to offset distance (e.g. SRSS which is the square root of the sume of the squares).
 
 ![image](https://user-images.githubusercontent.com/88777268/231474246-e6132e51-c368-48bc-aa2d-8cab4183db92.png)
+
+You can also receive the spheres in your authoring software of choice
+
+![image](https://user-images.githubusercontent.com/32340026/231527830-8590c2df-6fd8-462d-ba73-01ef36c2d4c4.png)
+
+
+## Limitations
+- Slanted columns are not yet supported
 
 ## Contributions
 Any and all contributions and collaborations are welcome! 
