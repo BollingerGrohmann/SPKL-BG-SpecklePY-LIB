@@ -84,5 +84,3 @@ Using the filters, results can be further interpreted. For example, filtering by
 
 ## Contributions
 Any and all contributions and collaborations are welcome! 
-
-Please note that this library development is in early stages and a high degree of refinement in code, although wanted, is not priority in these stages of development. Through application on use cases, can the library be refined and further developed to a desired level of quality.
