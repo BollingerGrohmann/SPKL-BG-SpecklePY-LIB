@@ -13,21 +13,21 @@ from bg_specklepy.SpeckleServer.commit import Commit
 from bg_specklepy.Operations.columnOffsetEvaluation import ColumnOffsetEvaluation
 
 # Server and token information
-speckle_server = "insert"
-speckle_token = "insert" # https://speckle.guide/dev/tokens.html
+speckle_server = "**insert"
+speckle_token = "**insert" # https://speckle.guide/dev/tokens.html
 
 # Initiating appropriate server objects
 client_obj = Client(speckle_server, speckle_token)
-stream_obj = Stream(client_obj, 0)
-branch_obj = Branch(client_obj, stream_obj, 0)
+stream_obj = Stream(client_obj)
+branch_obj = Branch(client_obj, stream_obj)
 
 # Getting commit_data
-commit_data = Commit.get_data(branch_obj, 2)
+commit_data = Commit.get_data(branch_obj)
 
 # Define and run analysis
 evaluation = ColumnOffsetEvaluation(commit_data = commit_data,
                                     tolerance = 0.02,
                                     echo_level = 1,
-                                    column_parameter = "@Tragwerksstützen",
+                                    column_parameter = "@Structural Columns",
                                     scale_spheres = False)
 evaluation.run()

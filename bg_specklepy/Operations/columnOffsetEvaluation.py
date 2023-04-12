@@ -3,8 +3,6 @@ import sys
 import pandas as pd
 import numpy as np
 import math
-from datetime import date
-from specklepy.api.client import SpeckleClient
 from specklepy.objects.geometry import Base
 from specklepy.objects.other import RenderMaterial
 from specklepy.objects.units import Units
@@ -42,7 +40,7 @@ class ColumnOffsetEvaluation():
         self.column_parameter = column_parameter
         self.tolerance = tolerance
         self.append_spheres_to_received_commit = False
-        self.commit_message = "[{}] analysis_column_eccentricity".format(date.today())
+        self.commit_message = "analysis_column_eccentricity"
         self.scale_spheres = scale_spheres
         self.client_obj = commit_data.client_obj
         self.stream_obj = commit_data.stream_obj
@@ -129,9 +127,9 @@ class ColumnOffsetEvaluation():
 
         df = pd.concat([df, pd.DataFrame(vertices)], axis = 1)
 
-        df["x_sort"] = df["x_u"].apply(np.floor)
-        df["y_sort"] = df["y_u"].apply(np.floor)
-        df["z_sort"] = df["z_u"].apply(np.floor)
+        df["x_sort"] = round(df["x_u"], 0) # !! Überprüfen
+        df["y_sort"] = round(df["y_u"], 0) # !! Überprüfen
+        df["z_sort"] = round(df["z_u"], 0) # !! Überprüfen
 
         df = df.round({'x_u': 2, 'y_u': 2, 'z_u' : 2, 'x_o': 2, 'y_o': 2, 'z_o' : 2})
         df.sort_values(["x_sort", "y_sort", "z_sort"], ascending = [True, True, True],
@@ -159,10 +157,12 @@ class ColumnOffsetEvaluation():
                 raise Exception("Slanted columns not yet implemented.")
 
             else:
+                # Last index of the DataFrame, ignored. No comparison
                 if index == len(self.data_frame.index) - 1:
                     continue
 
-                if row["z_o"] <= self.data_frame.iloc[index + 1]["z_u"]:
+                # Here, if the z coord of the below column is <= the z coord of column above, we can compare
+                if row["z_o"] - self.data_frame.iloc[index + 1]["z_u"] <= self.tolerance:
                     delta_x = row["x_o"] - self.data_frame.iloc[index + 1]["x_u"]
                     delta_y = row["y_o"] - self.data_frame.iloc[index + 1]["y_u"]
 
@@ -179,6 +179,19 @@ class ColumnOffsetEvaluation():
                         offset_srss.append(srss)
                         offset_x.append(delta_x)
                         offset_y.append(delta_y)
+                    
+                # If the column above "jumps" more than 1m, there is a discontinuity!
+                if self.data_frame.iloc[index + 1]["z_u"] - row["z_o"] > 1:
+
+                    column_below_id.append(None) # No column below, hence None
+                    column_below_elementId.append(None)
+                    column_below_applicationId.append(None)
+
+                    offset_column_indices.append(index + 1)
+
+                    offset_srss.append(srss)
+                    offset_x.append(delta_x)
+                    offset_y.append(delta_y)
 
         if self.echo_level == 1:
             print("[UPDATE]\t:\t{} offset columns found ...".format(str(len(offset_srss))))
@@ -198,7 +211,7 @@ class ColumnOffsetEvaluation():
         offset_df["column_below_id"] = column_below_id
         offset_df["column_below_elementId"] = column_below_elementId
         offset_df["column_below_applicationId"] = column_below_applicationId
-        
+
         self.offset_columns_dataframe = offset_df
 
     def _generate_spheres(self):
@@ -230,13 +243,13 @@ class ColumnOffsetEvaluation():
 
                 if variable.startswith("column_below"):
 
-                    if row["offset_srss"] < 1:
-                        obj["@column_below"][variable.split("_")[-1]] = row[variable]
-                        obj["@offset"]["Column_discontinuous"] = False
-
-                    else:
+                    if row["column_below_id"] is None: # Discontinuous col.
                         obj["@column_below"][variable.split("_")[-1]] = "Column underneath missing"
                         obj["@offset"]["Column_discontinuous"] = True
+
+                    else: # Not discontinuous but eccentric col.
+                        obj["@column_below"][variable.split("_")[-1]] = row[variable]
+                        obj["@offset"]["Column_discontinuous"] = False
 
                 elif variable.startswith("column_above"):
 
@@ -289,8 +302,8 @@ class ColumnOffsetEvaluation():
         Commit.send_data(self.client_obj,
                          self.stream_obj.id,
                          self.commit_data,
-                         "analysis_column_eccentricity",
-                         self.commit_message)
+                         branch_name = "analysis_column_eccentricity",
+                         commit_message = self.commit_message)
 
         if self.echo_level == 1:
             print("[UPDATE]\t:\tFinished! :) ")
