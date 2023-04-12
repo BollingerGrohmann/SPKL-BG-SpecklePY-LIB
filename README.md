@@ -34,6 +34,7 @@ If not found, the other libraries used by bg_specklepy (mentioned in "Dependenci
 A very simple model is shown below. The model contains three sources of column eccentricity / discontinuity which is intentionally modelled in, in order to show the functionality of the script.
 
 ![image](https://user-images.githubusercontent.com/88777268/231445510-cb93fc68-a441-4596-9122-cf15d14a16c0.png)
+
 Using the Speckle Connector for Revit, the model can easily be sent to the Speckle server.
 
 ![image](https://user-images.githubusercontent.com/88777268/231449020-ff91712d-fccc-4c50-8b61-a2aa429f1d47.png)
@@ -48,8 +49,8 @@ For the column offset evaluation to run, two input parameters are required:
 
 ##### 04 Running the column eccentricity analysis
 Now, the analysis can be run. 
-* Navigate to SPKL-BG-SPECKLEPY-LIB > Examples
-* Open the Analysis_ColumnEccentricity.py file in your Python environment of choice (for this example, Visual Studio Code was used).
+* Navigate to the folder directory *SPKL-BG-SPECKLEPY-LIB > Examples*
+* Open the *Analysis_ColumnEccentricity.py* file in your Python environment of choice (for this example, Visual Studio Code was used).
 
 ![image](https://user-images.githubusercontent.com/88777268/231452968-c202c361-1738-4cf3-9ac7-9fe4cc8d2418.png)
 
@@ -59,19 +60,17 @@ Now, the analysis can be run.
 
 ![image](https://user-images.githubusercontent.com/88777268/231454300-6b9d3f70-6acf-4cab-b279-7880ee11def3.png)
 
-* For the ColumnOffsetEvaluation Class, important to note is the "column_parameter". This string refers to the Revit Group name for columns and depends on a number of factors such as language in which Revit is being used in. When a false parameter is provided, the user will be prompted with a list of possible names. Update accordingly. For this example, the string "@Tragwerksstützen" will need to be replaced with "@Structural Columns". 
+* For the ```ColumnOffsetEvaluation``` Class, important to note is the ```column_parameter```. This string refers to the Revit Group name for columns and depends on a number of factors such as language in which Revit is being used in. When a false parameter is provided, the user will be prompted with a list of possible names. Update accordingly. For this example, the string "@Tragwerksstützen" will need to be replaced with "@Structural Columns". 
 
 ![image](https://user-images.githubusercontent.com/88777268/231455761-eae84dba-5d37-4254-b815-42a7b3c17c61.png)
 
-
-* When all parameters are correctly provided, the script can be run. Setting echo_level to 1 keeps users informed of the progress:
+* When all parameters are correctly provided, the script can be run. Setting ```echo_level``` to 1 keeps users informed of the progress:
 
 ![image](https://user-images.githubusercontent.com/88777268/231466068-df92b203-f10d-4349-ae01-7a03ba6687ff.png)
 
-
 #### Results
 
-The results are automatically commited to a branch called "analysis_column_eccentricity". If this branch does not exist, it will be created. The offsets are represented by spheres.
+The results are automatically commited to a branch called *analysis_column_eccentricity*. If this branch does not exist, it will be created. The offsets are represented by spheres.
 
 ![image](https://user-images.githubusercontent.com/88777268/231467560-23d03db1-928c-4d36-b1f5-9c0e41a3111a.png)
 
@@ -79,7 +78,7 @@ By clicking on a sphere object, details to the offset can be interrogated.
 
 ![image](https://user-images.githubusercontent.com/88777268/231467830-5df0f7da-804b-4c3a-987e-7048ca2da065.png)
 
-Using the filters, results can be further interpreted. For example, filtering by column discontinuity, we see 1 sphere returning a 1 (boolean for True) and 2 spheres returning a 0 (boolean for False). This is as per the Revit model defined. The filters can also be used to colour the spheres according to offset distance (e.g. SRSS which is the square root of the sume of the squares).
+Using the filters, results can be further interpreted. For example, filtering by column discontinuity, we see one sphere returning a 1 (boolean for True) and two spheres returning a 0 (boolean for False). This is as per the defined Revit model. The filters can also be used to colour the spheres according to offset distance (e.g. SRSS which is the square root of the sume of the squares).
 
 ![image](https://user-images.githubusercontent.com/88777268/231474246-e6132e51-c368-48bc-aa2d-8cab4183db92.png)
 
