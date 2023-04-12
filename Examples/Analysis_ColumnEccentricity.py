@@ -13,16 +13,16 @@ from bg_specklepy.SpeckleServer.commit import Commit
 from bg_specklepy.Operations.columnOffsetEvaluation import ColumnOffsetEvaluation
 
 # Server and token information
-speckle_server = "__add_server_url_here"
-speckle_token = "_add_token_here" # https://speckle.guide/dev/tokens.html
+speckle_server = "insert"
+speckle_token = "insert" # https://speckle.guide/dev/tokens.html
 
 # Initiating appropriate server objects
 client_obj = Client(speckle_server, speckle_token)
-stream_obj = Stream(client_obj)
-branch_obj = Branch(client_obj, stream_obj)
+stream_obj = Stream(client_obj, 0)
+branch_obj = Branch(client_obj, stream_obj, 0)
 
 # Getting commit_data
-commit_data = Commit.get_data(branch_obj)
+commit_data = Commit.get_data(branch_obj, 2)
 
 # Define and run analysis
 evaluation = ColumnOffsetEvaluation(commit_data = commit_data,

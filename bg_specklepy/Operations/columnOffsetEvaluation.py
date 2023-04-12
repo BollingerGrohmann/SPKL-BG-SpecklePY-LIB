@@ -3,6 +3,8 @@ import sys
 import pandas as pd
 import numpy as np
 import math
+from datetime import date
+from specklepy.api.client import SpeckleClient
 from specklepy.objects.geometry import Base
 from specklepy.objects.other import RenderMaterial
 from specklepy.objects.units import Units
@@ -40,10 +42,10 @@ class ColumnOffsetEvaluation():
         self.column_parameter = column_parameter
         self.tolerance = tolerance
         self.append_spheres_to_received_commit = False
-        self.commit_message = "Analysis_ColumnEccentricity"
+        self.commit_message = "[{}] analysis_column_eccentricity".format(date.today())
         self.scale_spheres = scale_spheres
         self.client_obj = commit_data.client_obj
-        self.stream_id = commit_data.stream_id
+        self.stream_obj = commit_data.stream_obj
         self.column_elements = None
         self.data_frame = None
         self.offset_columns_dataframe = None
@@ -255,7 +257,7 @@ class ColumnOffsetEvaluation():
         if self.echo_level == 1:
             print("[UPDATE]\t:\tReady to commit ...")
 
-        if self.append_spheres_to_received_commit:
+        if self.append_spheres_to_received_commit: # Used to be parameter. Now defaults to False
             self.commit_data["@Analysis_ColumnEccentricity"] = self.commit_object
 
         if not self.append_spheres_to_received_commit:
@@ -264,7 +266,33 @@ class ColumnOffsetEvaluation():
         if self.echo_level == 1:
             print("[UPDATE]\t:\tPushing commit ...")
 
-        Commit.send_data(self.client_obj, self.stream_id, self.commit_data, self.commit_message)
+        branches = self.client_obj.branch.list(self.stream_obj.id)
+        branch_names = [b.name for b in branches]
+
+        if self.echo_level == 1:
+            print("[UPDATE]\t:\tSearching for appropriate branch ...")
+
+        try:
+
+            branch_names.index("analysis_column_eccentricity")
+
+            if self.echo_level == 1:
+                print("[UPDATE]\t:\tBranch found ...")
+
+        except ValueError:
+
+            if self.echo_level == 1:
+                print("[UPDATE]\t:\tBranch not found, will be created ...")
+
+            self.client_obj.branch.create(self.stream_obj.id,
+                                          "analysis_column_eccentricity",
+                                          "Output of the column eccentricity evaluation.")
+
+        Commit.send_data(self.client_obj,
+                         self.stream_obj.id,
+                         self.commit_data,
+                         "analysis_column_eccentricity",
+                         self.commit_message)
 
         if self.echo_level == 1:
             print("[UPDATE]\t:\tFinished! :) ")

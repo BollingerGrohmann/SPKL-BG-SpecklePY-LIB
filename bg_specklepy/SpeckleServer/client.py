@@ -1,12 +1,13 @@
 import os
 import sys
-from specklepy.api.client import SpeckleClient
-from specklepy.api.credentials import get_account_from_token
 
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__),os.pardir))
 sys.path.append(PROJECT_ROOT)
 
 import dependencies
+
+from specklepy.api.client import SpeckleClient
+from specklepy.api.credentials import get_account_from_token
 
 # Können wir besser machen (?) - class Client(SpeckleClient) mit super().__init__()
 class Client():

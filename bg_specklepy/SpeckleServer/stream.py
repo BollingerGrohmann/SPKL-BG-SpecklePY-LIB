@@ -38,11 +38,15 @@ class Stream():
             stream_name = stream_names[int(stream_idx)]
             stream = client.stream.search(stream_name)[0]
 
+            object.__setattr__(stream, 'index', stream_idx)
+
             return stream
 
         if index is not None:
 
             stream_name = stream_names[int(index)]
             stream = client.stream.search(stream_name)[0]
+
+            object.__setattr__(stream, 'index', index)
 
             return stream

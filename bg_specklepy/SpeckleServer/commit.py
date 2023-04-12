@@ -32,6 +32,7 @@ class Commit():
                 print("\t",idx, commit.message)
 
             commit_idx = input("\ncommit_index: ")
+            print("")
             commit = branch.client.commit.get(branch.stream.id, branch.commits.items[int(commit_idx)].id)
 
         if index is not None:
@@ -42,11 +43,11 @@ class Commit():
         commit_data = operations.receive(commit.referencedObject, transport)
 
         commit_data.__setattr__("client_obj", branch.client)
-        commit_data.__setattr__("stream_id", branch.stream.id)
+        commit_data.__setattr__("stream_obj", branch.stream)
 
         return commit_data
 
-    def send_data(client_obj, stream_id, commit_data, commit_message):
+    def send_data(client_obj, stream_id, commit_data, branch_name, commit_message):
 
         '''
         Send a commit to a specific stream.
@@ -60,5 +61,7 @@ class Commit():
 
         transport = ServerTransport(client = client_obj, stream_id = stream_id)
         obj_id = operations.send(base = commit_data, transports = [transport])
-        commit = client_obj.commit.create(stream_id = stream_id, object_id = obj_id,
+        commit = client_obj.commit.create(stream_id = stream_id,
+                                          object_id = obj_id,
+                                          branch_name = branch_name,
                                           message = commit_message)
