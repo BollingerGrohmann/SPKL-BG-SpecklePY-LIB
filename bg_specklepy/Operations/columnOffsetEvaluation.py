@@ -198,8 +198,6 @@ class ColumnOffsetEvaluation():
         offset_df["column_below_id"] = column_below_id
         offset_df["column_below_elementId"] = column_below_elementId
         offset_df["column_below_applicationId"] = column_below_applicationId
-
-        offset_df.to_excel("output.xlsx")
         
         self.offset_columns_dataframe = offset_df
 
