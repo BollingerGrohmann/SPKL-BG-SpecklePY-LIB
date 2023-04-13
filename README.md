@@ -1,5 +1,4 @@
-<img src="https://1.bp.blogspot.com/-RrcxkaI7Os0/T3mMqn0ksXI/AAAAAAAABSE/oxogNNNudjw/s1600/BP.jpg" style="padding-right:5px;">
-
+# bg_specklepy
 Bollinger+Grohmann Library with [specklepy](https://github.com/specklesystems/specklepy).
 
 ## 📚 Description
