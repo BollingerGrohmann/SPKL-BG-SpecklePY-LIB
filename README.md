@@ -21,4 +21,4 @@ A special word of appreciation goes out to the [Speckle Team](https://speckle.sy
 Any and all contributions and collaborations are welcome! 
 
 ## Examples
-[01 - Column Eccentricity Example]()
+[01 - Column Eccentricity Example](https://github.com/BollingerGrohmann/SPKL-BG-SpecklePY-LIB/wiki/01-Column-Eccentricity-Example)
