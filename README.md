@@ -16,7 +16,7 @@ Required dependencies are automatically checked. Should a library not be availab
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 ## 🙌 Special Thanks To
-A special word of appreciation goes out to the [Speckle Team](https://speckle.systems/). Continuous support throughout development in the [Community platform](https://speckle.community/) by [@jsdbroughton](https://github.com/jsdbroughton) made a profound impact on development.
+A special word of appreciation goes out to the [Speckle Team](https://speckle.systems/). Continuous support throughout development, for example, in the [Community platform](https://speckle.community/) by [@jsdbroughton](https://github.com/jsdbroughton) made a profound impact on development.
 
 ## 🚀 Contributions
 Any and all contributions and collaborations are welcome! Kindly follow the below guidelines:
