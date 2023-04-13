@@ -80,13 +80,18 @@ The results are automatically commited to a branch called *analysis_column_eccen
 
 ![image](https://user-images.githubusercontent.com/88777268/231467560-23d03db1-928c-4d36-b1f5-9c0e41a3111a.png)
 
+By clicking on a sphere object, details to the offset can be interrogated.
+
+![image](https://user-images.githubusercontent.com/88777268/231467830-5df0f7da-804b-4c3a-987e-7048ca2da065.png)
+
 You can add your architectural or structural Revit model to the sphere model by clicking on the add button.
 
 ![image](https://user-images.githubusercontent.com/32340026/231526579-bc490679-c97b-4f0c-af14-7a9ba555207d.png)
 
-By clicking on a sphere object, details to the offset can be interrogated.
+![Unbenannt](https://user-images.githubusercontent.com/88777268/231702364-9077261f-6519-42e1-b2be-b0c521b6932c.PNG)
 
-![image](https://user-images.githubusercontent.com/88777268/231467830-5df0f7da-804b-4c3a-987e-7048ca2da065.png)
+![Unbenannt2](https://user-images.githubusercontent.com/88777268/231702417-6ab60a34-70b0-4d82-a7d3-e22ae9d790cc.PNG)
+
 
 Using the filters, results can be further interpreted. For example, filtering by column discontinuity, we see one sphere returning a 1 (boolean for True) and two spheres returning a 0 (boolean for False). This is as per the defined Revit model. The filters can also be used to colour the spheres according to offset distance (e.g. SRSS which is the square root of the sume of the squares).
 
