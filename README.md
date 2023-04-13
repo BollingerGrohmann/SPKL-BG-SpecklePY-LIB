@@ -7,7 +7,7 @@ Python library aimed at extending the functionality of [specklepy](https://githu
 
 ## 🖇 Dependencies
 Required dependencies are automatically checked. Should a library not be available for a specific class / method, the user will be prompted to install with a simple "y" input on the console. 
-* <img align="left" alt="specklepy" width="26px" src="https://speckle.systems/content/images/2022/06/logo-blue-2.png" style="padding-right:5px;">[specklepy](https://github.com/specklesystems/specklepy)
+* <img align="left" alt="specklepy" width="90px" src="https://speckle.systems/content/images/2022/06/logo-blue-2.png" style="padding-right:5px;">
 * ![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)
 * ![NumPy](https://img.shields.io/badge/numpy-%23013243.svg?style=for-the-badge&logo=numpy&logoColor=white)
 * <img align="left" alt="specklepy" width="26px" src="https://user-images.githubusercontent.com/1403074/50364429-c135c980-0524-11e9-8128-bdefe1ea8de8.png" style="padding-right:5px;">trimesh
