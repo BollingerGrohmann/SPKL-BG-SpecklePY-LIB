@@ -17,7 +17,7 @@ A special word of appreciation goes out to the [Speckle Team](https://speckle.sy
 ## Examples
 
 ### Column eccentricity example
-The full Speckle stream can be found [here](https://speckle.xyz/streams/ff47530e95)
+The full Speckle stream can be found [here](https://speckle.xyz/streams/ff47530e95).
 #### Description
 Column eccentricities present an undesired disturbance in the flow of forces. In large models, detecting such eccentricities can prove to be a manual and tedious task. In this development, a Revit model is sent to a Speckle branch, interpreted and analysed using the bg_specklepy eccentricity script, with the end result being a graphical output highlighting areas where eccentricities are present.
 
