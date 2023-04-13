@@ -8,10 +8,13 @@ Python library aimed at:
 
 ## Dependencies
 Required dependencies are automatically checked. Should a library not be available for a specific class / method, the user will be prompted to install with a simple "y" input on the console. 
-* specklepy
+* [specklepy](https://github.com/specklesystems/specklepy)
 * pandas
 * numpy
 * trimesh
+
+## Special Thanks To
+A special word of appreciation goes out to the [Speckle Team](https://speckle.systems/). Continuous support throughout development in the [Community platform](https://speckle.community/) by @jsdbroughton made a profound impact on development. 
 
 ## Examples
 
@@ -93,9 +96,15 @@ You can also receive the spheres in your authoring software of choice
 
 ![image](https://user-images.githubusercontent.com/32340026/231527830-8590c2df-6fd8-462d-ba73-01ef36c2d4c4.png)
 
+#### Assumptions & Limitations
 
-## Limitations
-- Slanted columns are not yet supported
+- All models exported from Revit need to be provided in meters (m) as the project parameter for length
+- Slanted columns are not yet supported. If a slanted column is detected, an ```Exception``` will be raised. 
+- The evaluation of a columns uses the baseline as the center of gravity. Correct modelling in Revit needs to be adhered to, to ensure an effective evaluation
+
+#### Liability
+
+- The user of this open-source code is solely responsible for verifying its accuracy and applicability for their intended use. The authors shall not be liable for any errors or bugs in the code. 
 
 ## Contributions
 Any and all contributions and collaborations are welcome! 
