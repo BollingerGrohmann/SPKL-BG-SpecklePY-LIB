@@ -12,6 +12,8 @@ from bg_specklepy.SpeckleServer.branch import Branch
 from bg_specklepy.SpeckleServer.commit import Commit
 from bg_specklepy.Operations.columnOffsetEvaluation import ColumnOffsetEvaluation
 
+# Example Model can be found here: https://speckle.xyz/streams/ff47530e95
+
 # Server and token information
 speckle_server = "**insert"
 speckle_token = "**insert" # https://speckle.guide/dev/tokens.html

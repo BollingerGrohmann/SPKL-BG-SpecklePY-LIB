@@ -1,7 +1,6 @@
 import os
 import sys
 import pandas as pd
-import numpy as np
 import math
 from specklepy.objects.geometry import Base
 from specklepy.objects.other import RenderMaterial
@@ -168,9 +167,9 @@ class ColumnOffsetEvaluation():
 
                     srss = math.sqrt(delta_x**2 + delta_y**2)
 
-                    if srss > self.tolerance:
+                    if srss > self.tolerance and srss < 0.5:
 
-                        column_below_id.append(row["id"])
+                        column_below_id.append(row["id"]) # ToDo: 7 Zeilen -> Funktion (wird 3 Mal aufgerufen)
                         column_below_elementId.append(row["elementId"])
                         column_below_applicationId.append(row["applicationId"])
 
@@ -180,7 +179,20 @@ class ColumnOffsetEvaluation():
                         offset_x.append(delta_x)
                         offset_y.append(delta_y)
                     
-                # If the column above "jumps" more than 1m, there is a discontinuity!
+                    # If the SRSS > 0.5, this doesn't belong to column run and is a discontinuous
+                    if srss > 0.5:
+
+                        column_below_id.append(None) # No column below, hence None
+                        column_below_elementId.append(None)
+                        column_below_applicationId.append(None)
+    
+                        offset_column_indices.append(index + 1)
+    
+                        offset_srss.append("-")
+                        offset_x.append("-")
+                        offset_y.append("-")
+
+                # If the column above "jumps" vertically more than 1m, there is a discontinuity in the level!
                 if self.data_frame.iloc[index + 1]["z_u"] - row["z_o"] > 1:
 
                     column_below_id.append(None) # No column below, hence None
@@ -189,9 +201,9 @@ class ColumnOffsetEvaluation():
 
                     offset_column_indices.append(index + 1)
 
-                    offset_srss.append(srss)
-                    offset_x.append(delta_x)
-                    offset_y.append(delta_y)
+                    offset_srss.append("-")
+                    offset_x.append("-")
+                    offset_y.append("-")
 
         if self.echo_level == 1:
             print("[UPDATE]\t:\t{} offset columns found ...".format(str(len(offset_srss))))
