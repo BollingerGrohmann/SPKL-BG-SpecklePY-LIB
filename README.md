@@ -18,6 +18,9 @@ Required dependencies are automatically checked. Should a library not be availab
 ## 🙌 Special Thanks To
 A special word of appreciation goes out to the [Speckle Team](https://speckle.systems/). Continuous support throughout development, for example, in the [Community platform](https://speckle.community/) by [@jsdbroughton](https://github.com/jsdbroughton) made a profound impact on development.
 
+## 💭 Examples
+[01 - Column Eccentricity Example](https://github.com/BollingerGrohmann/SPKL-BG-SpecklePY-LIB/wiki/01-Column-Eccentricity-Example)
+
 ## 🚀 Contributions
 Any and all contributions and collaborations are welcome! Kindly follow the below guidelines:
 1. Clone the repository (this will create a copy of the project on your computer that you can modify and test)
@@ -27,6 +30,3 @@ Any and all contributions and collaborations are welcome! Kindly follow the belo
 5. Push changes to GitHub
 6. Create a **pull request** (pull request should include a description of the changes you made and why they are important)
 7. Respond to feedback from reviewer(s)
-
-## 💭 Examples
-[01 - Column Eccentricity Example](https://github.com/BollingerGrohmann/SPKL-BG-SpecklePY-LIB/wiki/01-Column-Eccentricity-Example)
