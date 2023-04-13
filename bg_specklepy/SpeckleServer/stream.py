@@ -1,3 +1,5 @@
+# This class is intended to work in conjunction with the specklepy class, not replace it!
+
 from specklepy.api.client import SpeckleClient
 
 class Stream():

@@ -1,3 +1,5 @@
+# This class is intended to work in conjunction with the specklepy class, not replace it!
+
 from specklepy.api.models import Branch
 from specklepy.api import operations
 from specklepy.transports.server import ServerTransport
