@@ -12,7 +12,7 @@ Required dependencies are automatically checked. Should a library not be availab
 * <img align="left" alt="specklepy" width="26px" src="https://user-images.githubusercontent.com/1403074/50364429-c135c980-0524-11e9-8128-bdefe1ea8de8.png" style="padding-right:5px;">trimesh
 
 ## ⚖ License
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0), details [here](https://github.com/BollingerGrohmann/SPKL-BG-SpecklePY-LIB/blob/main/LICENSE)
 
 ## 🙌 Special Thanks To
 A special word of appreciation goes out to the [Speckle Team](https://speckle.systems/). Continuous support throughout development, for example, in the [Community platform](https://speckle.community/) by [@jsdbroughton](https://github.com/jsdbroughton) made a profound impact on development.
