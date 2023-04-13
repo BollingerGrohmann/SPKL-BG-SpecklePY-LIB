@@ -7,7 +7,8 @@ class Sphere():
     A general placeholder for methods pertaining to a sphere object.
     '''
 
-    def create(radius, center):
+    def create(radius: float  = 1,
+               center: list = [0, 0, 0]):
             
         '''
         Appropriately formatted sphere mesh for speckle_py.

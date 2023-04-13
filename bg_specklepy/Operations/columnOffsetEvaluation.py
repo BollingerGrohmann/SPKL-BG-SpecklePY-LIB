@@ -319,4 +319,3 @@ class ColumnOffsetEvaluation():
 
         if self.echo_level == 1:
             print("[UPDATE]\t:\tFinished! :) ")
-    
