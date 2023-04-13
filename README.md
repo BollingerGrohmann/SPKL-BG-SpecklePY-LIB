@@ -14,7 +14,7 @@ Required dependencies are automatically checked. Should a library not be availab
 * trimesh
 
 ## Special Thanks To
-A special word of appreciation goes out to the [Speckle Team](https://speckle.systems/). Continuous support throughout development in the [Community platform](https://speckle.community/) by @jsdbroughton made a profound impact on development. 
+A special word of appreciation goes out to the [Speckle Team](https://speckle.systems/). Continuous support throughout development in the [Community platform](https://speckle.community/) by [@jsdbroughton](https://github.com/jsdbroughton) made a profound impact on development. 
 
 ## Examples
 
