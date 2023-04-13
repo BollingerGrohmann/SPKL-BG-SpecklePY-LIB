@@ -9,9 +9,9 @@ try:
     import openpyxl
 
 except:
-    print('One of the required modules is not installed in your Python env.')
-    user_prompt = input('\nDo you want to install all dependencies and check all their versions (y/n)? ')
-    user_prompt = user_prompt.lower()
+    print('One of the required modules cannot be found.')
+    user_prompt = input('\nInstall all dependencies (y/n)? ')
+    user_prompt = user_prompt.lower() # For case-sensitive work-around
     if user_prompt == 'y':
         import subprocess
         try:
@@ -19,9 +19,8 @@ except:
             subprocess.call('python -m pip install specklepy pandas numpy trimesh openpyxl --user')
         except:
             print('WARNING: Installation of modules failed!')
-            print('Please use command "python -m pip install specklepy pandas numpy trimesh openpyxl --user" in your Command Prompt.')
             input('Press Enter to exit...')
             sys.exit()
     else:
-        input('Press Enter to exit...')
+        print('Input not recognized')
         sys.exit()
