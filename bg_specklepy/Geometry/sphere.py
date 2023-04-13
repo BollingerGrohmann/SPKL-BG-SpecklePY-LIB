@@ -14,8 +14,8 @@ class Sphere():
         Appropriately formatted sphere mesh for speckle_py.
 
         Args:
-            radius (float): Radius of sphere (given in m).
-            center (list): Center of sphere [x, y, z](given in m).
+            radius (float): Radius of sphere
+            center (list): Center of sphere [x, y, z]
 
         Returns:
             speckle.objects.geometry.Mesh: A speckle mesh object.

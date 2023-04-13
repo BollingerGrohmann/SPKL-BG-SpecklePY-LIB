@@ -6,7 +6,7 @@ try:
     import pandas
     import numpy
     import trimesh
-    import openpyxl
+    import pytest
 
 except:
     print('One of the required modules cannot be found.')
@@ -16,7 +16,7 @@ except:
         import subprocess
         try:
             subprocess.call('python -m pip install --upgrade pip')
-            subprocess.call('python -m pip install specklepy pandas numpy trimesh openpyxl --user')
+            subprocess.call('python -m pip install specklepy pandas numpy trimesh pytest --user')
         except:
             print('WARNING: Installation of modules failed!')
             input('Press Enter to exit...')

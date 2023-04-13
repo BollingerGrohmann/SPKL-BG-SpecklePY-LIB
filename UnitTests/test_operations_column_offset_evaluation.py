@@ -15,18 +15,17 @@ from bg_specklepy.Operations.columnOffsetEvaluation import ColumnOffsetEvaluatio
 
 def test_operations_column_offset_evaluation():
 
-    speckle_server = "https://speckle.xyz"
-    speckle_token = input("Provide Speckle token: ")
+    speckle_server = "insert"
+    speckle_token = "insert"
 
     client_obj = Client(speckle_server, speckle_token)
     stream_obj = Stream(client_obj, 0)
-    branch_obj = Branch(client_obj, stream_obj, 0)
+    branch_obj = Branch(client_obj, stream_obj, 6)
     commit_data = Commit.get_data(branch_obj, 0)
 
     evaluation = ColumnOffsetEvaluation(commit_data = commit_data,
                                         tolerance = 0.02,
                                         echo_level = 0,
-                                        column_parameter = "@Structural Columns",
                                         scale_spheres = False)
     evaluation.run()
 

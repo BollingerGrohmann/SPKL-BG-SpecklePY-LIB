@@ -15,8 +15,8 @@ from bg_specklepy.Operations.columnOffsetEvaluation import ColumnOffsetEvaluatio
 # Example Model can be found here: https://speckle.xyz/streams/ff47530e95
 
 # Server and token information
-speckle_server = "**insert"
-speckle_token = "**insert" # https://speckle.guide/dev/tokens.html
+speckle_server = "insert"
+speckle_token = "insert" # https://speckle.guide/dev/tokens.html
 
 # Initiating appropriate server objects
 client_obj = Client(speckle_server, speckle_token)
@@ -30,6 +30,5 @@ commit_data = Commit.get_data(branch_obj)
 evaluation = ColumnOffsetEvaluation(commit_data = commit_data,
                                     tolerance = 0.02,
                                     echo_level = 1,
-                                    column_parameter = "@Structural Columns",
                                     scale_spheres = False)
 evaluation.run()

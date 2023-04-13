@@ -11,8 +11,8 @@ from bg_specklepy.SpeckleServer.commit import Commit
 
 def test_speckleServer():
 
-    speckle_server = input("Provide link to Speckle server: ")
-    speckle_token = input("Provide Speckle token: ")
+    speckle_server = "insert"
+    speckle_token = "insert"
 
     client_obj = Client(speckle_server, speckle_token)
     stream_obj = Stream(client_obj, 0)
