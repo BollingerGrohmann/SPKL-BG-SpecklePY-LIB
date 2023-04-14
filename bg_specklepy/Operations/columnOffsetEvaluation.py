@@ -86,7 +86,7 @@ class ColumnOffsetEvaluation():
                 continue
 
         if self.column_elements[0].units != 'm':
-            if self.column_elements[0].units != 'mm':
+            if self.column_elements[0].units == 'mm':
                 self._units = 'mm'
                 self._units_scaling = 1000
                 print("[WARNING]\t:\tModel assumed to be in metres. Internal conversions taking place for mm. Double-check outputs")
