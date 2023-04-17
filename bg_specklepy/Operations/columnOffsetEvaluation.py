@@ -35,7 +35,6 @@ class ColumnOffsetEvaluation():
         self.echo_level = echo_level
         self.column_parameter = None
         self.tolerance = tolerance
-        self.append_spheres_to_received_commit = False
         self.commit_message = "analysis_column_eccentricity"
         self.scale_spheres = scale_spheres
         self.client_obj = commit_data.client_obj
@@ -289,15 +288,11 @@ class ColumnOffsetEvaluation():
         self.commit_object = commit_object
 
     def _commit_data(self):
+        
+        self.commit_data = self.commit_object
 
         if self.echo_level == 1:
             print("[UPDATE]\t:\tReady to commit ...")
-
-        if self.append_spheres_to_received_commit: # Used to be parameter. Now defaults to False
-            self.commit_data["@Analysis_ColumnEccentricity"] = self.commit_object
-
-        if not self.append_spheres_to_received_commit:
-            self.commit_data = self.commit_object
 
         if self.echo_level == 1:
             print("[UPDATE]\t:\tPushing commit ...")
