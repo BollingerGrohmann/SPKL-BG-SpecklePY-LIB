@@ -21,7 +21,7 @@ A special word of appreciation goes out to the [Speckle Team](https://speckle.sy
 [01 - Column Eccentricity Example](https://github.com/BollingerGrohmann/SPKL-BG-SpecklePY-LIB/wiki/01-Column-Eccentricity-Example)
 
 ## 🚀 Contributions
-Any and all contributions and collaborations are welcome! Kindly follow the below guidelines:
+Any and all contributions are welcome! Kindly follow the below guidelines:
 1. Clone the repository
    - *This will create a copy of the project on your computer that you can modify and test*
 2. Create a new branch **before** you start making changes
@@ -34,3 +34,6 @@ Any and all contributions and collaborations are welcome! Kindly follow the belo
 6. Create a **pull request**
    - *Pull request should include a description of the changes you made and why they are important*
 7. Respond to feedback from reviewer(s)
+
+## 🤝 Collaborations
+Keen to collaborate? So are we! Feel free to reach out under the [Discussions Tab](https://github.com/BollingerGrohmann/SPKL-BG-SpecklePY-LIB/discussions) or on [LinkedIn](https://www.linkedin.com/company/bollingergrohmann).
